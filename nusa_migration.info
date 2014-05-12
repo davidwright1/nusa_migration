@@ -1,0 +1,6 @@
+name = NumbersUSA Migration
+description = Migration for NUSA
+core = 7.x
+package = NUSA
+
+dependencies[] = migrate-7.x-2.x-dev
