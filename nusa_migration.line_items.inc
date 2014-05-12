@@ -30,14 +30,18 @@ class NusaLineItemMigration extends Migration {
       array(
         // enter  unique key for source
         'unique_id' => array(
-          'type' => '',
-          'description' => '',
+          'type' => 'int',
+          'description' => 'Universal unique ID of CSV',
         ),
       ),
       $this->destination->getKeySchema('commerce_line_item', 'nusa_donation')
     );
     
     // Field mappings.
+    $this->addFieldMapping('quantity', ''); // Quantity is always 1?
+    $this->addFieldMapping('commerce_unit_price', '');  // Unit Price?  Same as order total due to 1 line item per order?
+    $this->addFieldMapping('label', 'title?');  // Title?  
+    $this->addFieldMapping('field_donated_amount', 'unit_price');  // Again?  More questions to what this means.
   }
 
   public function csvcolumns() {

@@ -30,14 +30,31 @@ class NusaOrderMigration extends Migration {
       array(
         // enter  unique key for source
         'unique_id' => array(
-          'type' => '',
-          'description' => '',
+          'type' => 'int',
+          'description' => 'Universal Unique ID for CSV',
         ),
       ),
       $this->destination->getKeySchema('commerce_order', 'commerce_order')
     );
     
     // Field mappings.
+    $this->addFieldMapping('mail', 'order_owner_email');
+    $this->addFieldMapping('created', 'order_created_date');
+    //$this->addFieldMapping('commerce_order_total', 'order_total');
+    $this->addFieldMapping('field_in_honor_of', 'order_in_honor_of');
+    $this->addFieldMapping('field_donation_allocation', 'order_donation_allocation');
+    $this->addFieldMapping('field_is_donation', 'order_is_donation');
+    $this->addFieldMapping('field_jid', 'order_jid');
+    $this->addFieldMapping('field_processor_uid', 'order_processor_email'); // TODO: go from email to uid.
+    $this->addFieldMapping('field_legacy_payment_method', 'order_payment_method');
+    $this->addFieldMapping('field_legacy_transaction_id', 'order_transaction_id');
+    $this->addFieldMapping('commerce_customer_billing', ''); // TODO: reference to the unique_id field from CSV on billing profiles which should already be migrated.
+    $this->addFieldMapping('status', ''); // default Value needed
+    $this->addFieldMapping('field_legacy_which_account', 'order_which_account');
+    
+    // Unmigrated Destinations.
+    
+    // Unmigrated Sources.
   }
 
   public function csvcolumns() {

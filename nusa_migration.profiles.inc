@@ -22,7 +22,7 @@ class NusaProfileMigration extends Migration {
       );
     
     // Create destination.
-    $this->destination = new MigrateDestinationEntityAPI('commerce_customer_profile', 'commerce_customer_billing');
+    $this->destination = new MigrateDestinationEntityAPI('commerce_customer_profile', 'billing');
     
     // Create the map.
     $this->map = new MigrateSQLMap(
@@ -30,14 +30,30 @@ class NusaProfileMigration extends Migration {
       array(
         // enter  unique key for source
         'unique_id' => array(
-          'type' => '',
-          'description' => '',
+          'type' => 'int',
+          'description' => 'Universal unique ID of CSV',
         ),
       ),
       $this->destination->getKeySchema('commerce_customer_profile', 'commerce_customer_billing')
     );
-    
+
     // Field mappings.
+    $this->addFieldMapping('field_billing_phone_number', 'phone_number');
+    $this->addFieldMapping('uid', ''); // UNSURE.  We'll see.
+    $this->addFieldMapping('commerce_customer_address', 'country');
+    $this->addFieldMapping('commerce_customer_address:thoroughfare', 'address1');
+    $this->addFieldMapping('commerce_customer_address:premise', 'address2');
+    $this->addFieldMapping('commerce_customer_address:locality', 'city');
+    $this->addFieldMapping('commerce_customer_address:administrative_area', 'state');
+    $this->addFieldMapping('commerce_customer_address:postal_code', 'zip_code');
+    $this->addFieldMapping('commerce_customer_address:first_name', 'first_name');
+    $this->addFieldMapping('commerce_customer_address:last_name', 'last_name');
+   // $this->addFieldMapping('commerce_customer_address:name_line',);  TODO:  will require some shenanigans.
+    
+    // Unmigrated destinations.
+    
+    // Unmigrated sources.
+    
   }
 
   public function csvcolumns() {
@@ -57,6 +73,7 @@ class NusaProfileMigration extends Migration {
     $columns[11] = array('line_item_quantity', 'LI Quantity');
     $columns[12] = array('line_item_unit_price', 'LI Unit Price');
     $columns[13] = array('line_item_title', 'LI Title');
+    
     $columns[14] = array('country', 'Profile Country');
     $columns[15] = array('address1', 'Profile Address 1');
     $columns[16] = array('address2', 'Profile Address 2');
@@ -66,6 +83,7 @@ class NusaProfileMigration extends Migration {
     $columns[20] = array('first_name', 'Profile First Name');
     $columns[21] = array('last_name', 'Profile Last Name');
     $columns[22] = array('company', 'Profile Company');
+    
     $columns[23] = array('phone_number', 'Profile Phone Number');
     $columns[24] = array('order_which_account', 'Contribution to which fund');
   }
